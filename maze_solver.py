@@ -45,15 +45,16 @@ class MazeSolver:
     
     def display_initial_screen(self):
         """Display the initial maze and instructions"""
+        self.graphics.clear_text()
+        self.graphics.display_title()
         self.graphics.draw_maze()
         self.graphics.display_instructions()
-        self.graphics.display_message(
-            "Select an algorithm: 1=BFS, 2=DFS, 3=A*", 
-            y=-200
-        )
+        self.graphics.display_status_message("🚀 Ready! Press 1=BFS, 2=DFS, or 3=A* to start", "green")
     
     def handle_key_press(self, action):
         """Handle keyboard input"""
+        print(f"Key pressed: {action}")  # Debug output
+        
         if action == 'BFS':
             self.run_search('BFS')
         elif action == 'DFS':
@@ -64,9 +65,11 @@ class MazeSolver:
             self.reset_maze()
         elif action == 'SPEED_UP':
             self.graphics.speed_up()
+            self.graphics.display_status_message(f"⚡ Speed: {self.graphics.animation_speed:.3f}s", "blue")
             print(f"Speed increased. Current delay: {self.graphics.animation_speed:.3f}s")
         elif action == 'SLOW_DOWN':
             self.graphics.slow_down()
+            self.graphics.display_status_message(f"🐌 Speed: {self.graphics.animation_speed:.3f}s", "blue")
             print(f"Speed decreased. Current delay: {self.graphics.animation_speed:.3f}s")
         elif action == 'QUIT':
             self.quit_program()
@@ -74,6 +77,9 @@ class MazeSolver:
     def run_search(self, algorithm_name):
         """Run the specified search algorithm"""
         print(f"Running {algorithm_name} algorithm...")
+        
+        # Update status
+        self.graphics.display_status_message(f"🔍 Running {algorithm_name}...", "orange")
         
         # Clear previous search results
         self.graphics.clear_search_visualization()
@@ -87,10 +93,10 @@ class MazeSolver:
             if path:
                 print(f"Path found! Length: {len(path)}")
                 self.graphics.draw_path(path)
-                self.display_success_message(stats)
+                self.graphics.display_status_message(f"✅ {stats['algorithm']} found path! Length: {len(path)}", "green")
             else:
                 print("No path found!")
-                self.display_failure_message(stats)
+                self.graphics.display_status_message(f"❌ {stats['algorithm']}: No path found", "red")
             
             # Display statistics
             self.graphics.display_statistics(stats)
@@ -98,7 +104,7 @@ class MazeSolver:
             
         except Exception as e:
             print(f"Error running algorithm: {e}")
-            self.graphics.display_message(f"Error: {str(e)}", y=-200)
+            self.graphics.display_status_message(f"❌ Error: {str(e)}", "red")
     
     def display_success_message(self, stats):
         """Display success message"""
@@ -126,10 +132,7 @@ class MazeSolver:
         self.maze.reset_maze()
         self.graphics.clear_search_visualization()
         self.graphics.draw_maze()
-        self.graphics.display_message(
-            "Maze reset. Select an algorithm: 1=BFS, 2=DFS, 3=A*", 
-            y=-200
-        )
+        self.graphics.display_status_message("🔄 Maze reset. Ready for new search!", "blue")
     
     def generate_new_maze(self):
         """Generate a new random maze"""
@@ -145,25 +148,36 @@ class MazeSolver:
         """Quit the program"""
         print("Quitting maze solver...")
         self.running = False
-        self.graphics.close()
+        try:
+            self.graphics.close()
+        except:
+            pass
         sys.exit(0)
     
     def run(self):
-        """Main program loop"""
+        """Main program loop - FIXED VERSION"""
         print("Maze Solver started!")
         print("Use keyboard controls to interact:")
         print("1 - BFS, 2 - DFS, 3 - A*")
-        print("R - Reset, + - Speed up, - - Slow down, Q - Quit")
+        print("R - Reset, N - New Maze, + - Speed up, - - Slow down, Q - Quit")
+        print("\nMake sure to click on the turtle window to activate keyboard input!")
         
         try:
-            # Keep the program running
-            while self.running:
-                self.graphics.screen.update()
-                time.sleep(0.1)
+            # Keep the graphics window open and responsive
+            self.graphics.screen.listen()  # Enable keyboard input
+            
+            # Use turtle's mainloop instead of our own loop
+            self.graphics.screen.getcanvas().winfo_toplevel().protocol("WM_DELETE_WINDOW", self.quit_program)
+            
+            # Start the turtle mainloop - this keeps window open
+            self.graphics.screen.mainloop()
+            
         except KeyboardInterrupt:
             print("\nProgram interrupted by user")
         except Exception as e:
             print(f"An error occurred: {e}")
+            import traceback
+            traceback.print_exc()
         finally:
             self.quit_program()
 
@@ -174,6 +188,8 @@ def main():
         solver.run()
     except Exception as e:
         print(f"Failed to start maze solver: {e}")
+        import traceback
+        traceback.print_exc()
         sys.exit(1)
 
 if __name__ == "__main__":
