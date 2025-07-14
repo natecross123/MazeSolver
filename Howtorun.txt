@@ -1,0 +1,16 @@
+HOW TO RUN 
+
+clone repository and  run 
+
+if using mac python3 maze_solver.py in terminal for terminal use other wise python maze_solver.py
+
+un the program - A window will open
+Click on the turtle window to give it focus
+Press keys:
+
+1 = Run BFS algorithm
+2 = Run DFS algorithm
+3 = Run A* algorithm
+R = Reset maze
+N = New maze
+Q = Quit

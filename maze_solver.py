@@ -21,11 +21,10 @@ class MazeSolver:
         self.setup()
     
     def configure_for_m4(self):
-        """Configure environment for M4 MacBook"""
+        """Configure environment for Computer"""
         try:
-            print("Configuring for M4 MacBook...")
+            print("Configuring for Computer...")
             
-            # Set environment variables for optimal performance on Apple Silicon
             os.environ['TK_SILENCE_DEPRECATION'] = '1'
             os.environ['PYTHONUNBUFFERED'] = '1'  # Ensure immediate output
             
@@ -33,7 +32,6 @@ class MazeSolver:
             print(f"Python version: {sys.version}")
             print(f"Platform: {sys.platform}")
             
-            # Verify we're running on Apple Silicon
             import platform
             if platform.machine() == 'arm64':
                 print("✅ Running on Apple Silicon (M-series chip)")
@@ -50,16 +48,14 @@ class MazeSolver:
         print("Initializing Maze Solver for M4 MacBook...")
         
         try:
-            # Create maze with optimized settings
+
             print("Creating maze...")
             self.maze = Maze()
-            
-            # Validate maze
+
             print("Validating maze...")
             self.maze.validate_maze()
-            
-            # Setup graphics with M4 optimizations
-            print("Setting up M4-optimized graphics...")
+         
+            print("Setting up graphics...")
             self.graphics = MazeGraphics(self.maze)
             
             if not self.graphics.setup_successful:
@@ -79,7 +75,7 @@ class MazeSolver:
         except Exception as e:
             print(f"❌ Error during setup: {e}")
             traceback.print_exc()
-            print("\nTroubleshooting tips for M4 MacBook:")
+            print("\nTroubleshooting tips :")
             print("1. Ensure you're using Python 3.9+ with tkinter support")
             print("2. Try: brew install python-tk")
             print("3. Make sure no other turtle graphics programs are running")

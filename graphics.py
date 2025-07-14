@@ -404,3 +404,6 @@ class MazeGraphics:
                 self.screen.bye()
         except:
             pass
+
+
+        

@@ -28,6 +28,8 @@ class SearchAlgorithms:
         """Calculate Manhattan distance heuristic"""
         return abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
     
+
+    
     def bfs(self, visualize=True):
         """Breadth-First Search implementation"""
         start_time = time.time()
@@ -137,6 +139,8 @@ class SearchAlgorithms:
         
         return None
     
+
+
     def astar(self, visualize=True):
         """A* Search implementation"""
         start_time = time.time()

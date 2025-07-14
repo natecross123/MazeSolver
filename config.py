@@ -27,7 +27,7 @@ COLORS = {
 # Animation settings
 ANIMATION_SPEED = 0.1  # seconds between steps
 FAST_SPEED = 0.01
-SLOW_SPEED = 0.3
+SLOW_SPEED = 0.1
 
 # Maze symbols
 WALL = 1
